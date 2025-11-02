@@ -1,0 +1,62 @@
+# Example workflow showing different ways to use the Bark action
+# This file is for documentation purposes - you can copy these examples to your own workflows
+
+name: Bark Examples
+
+on:
+  workflow_dispatch:  # Manual trigger only
+
+jobs:
+  # Example 1: Simplest usage - just check for BARK comments
+  basic-check:
+    name: Basic BARK Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: debkanchan/bark@v1
+
+  # Example 2: Scan specific directory
+  scan-src-only:
+    name: Scan Source Directory Only
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: debkanchan/bark@v1
+        with:
+          path: './src'
+
+  # Example 3: JSON output for parsing/processing
+  json-output:
+    name: JSON Output Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: debkanchan/bark@v1
+        with:
+          format: 'json'
+
+  # Example 4: Report only (don't fail the build)
+  informational-check:
+    name: Informational Check (No Fail)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: debkanchan/bark@v1
+        with:
+          fail-on-findings: 'false'
+  
+  # Example 5: Full configuration
+  full-config:
+    name: Full Configuration Example
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check for BARK comments
+        uses: debkanchan/bark@v1
+        with:
+          path: '.'
+          format: 'text'
+          fail-on-findings: 'true'
+          version: 'latest'
+

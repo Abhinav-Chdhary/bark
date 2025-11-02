@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "name": "clean-config",
+  "settings": {
+    "enabled": true,
+    "timeout": 5000
+  }
+}
+

@@ -1,0 +1,14 @@
+# BARK: Remove debug configuration
+[server]
+host = "localhost"
+port = 8080
+
+# BARK Replace with environment variables
+[database]
+url = "postgres://localhost/test"  # BARK: Hardcoded connection string
+username = "test_user"
+
+# Regular comment
+[logging]
+level = "debug"  # BARK: Change to info for production
+

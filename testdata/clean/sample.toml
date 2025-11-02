@@ -1,0 +1,15 @@
+# Production server configuration
+[server]
+host = "0.0.0.0"
+port = 8080
+
+# Database configuration from environment
+[database]
+url_env = "DATABASE_URL"
+connection_pool_size = 10
+
+# Logging configuration
+[logging]
+level = "info"
+format = "json"
+

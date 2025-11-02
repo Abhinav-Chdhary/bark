@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BARK: Remove test configuration -->
+<configuration>
+    <settings>
+        <!-- BARK: Replace with production values -->
+        <apiUrl>http://localhost:3000</apiUrl>
+        <debug>true</debug>
+    </settings>
+    
+    <!-- Regular comment -->
+    <database>
+        <!-- BARK needs proper credentials -->
+        <host>localhost</host>
+    </database>
+</configuration>
+

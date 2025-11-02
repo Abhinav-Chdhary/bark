@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Production configuration -->
+<configuration>
+    <settings>
+        <!-- Production API endpoint -->
+        <apiUrl>https://api.production.com</apiUrl>
+        <debug>false</debug>
+    </settings>
+    
+    <!-- Database configuration -->
+    <database>
+        <host>db.production.com</host>
+        <port>5432</port>
+    </database>
+</configuration>
+

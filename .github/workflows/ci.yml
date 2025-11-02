@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+      
+      - name: Run tests
+        run: go test -v ./...
+      
+      - name: Run tests with coverage
+        run: go test -cover ./...
+  
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+      
+      - name: Build
+        run: go build -o bark ./cmd/bark
+      
+      - name: Test binary exists
+        shell: bash
+        run: |
+          if [ -f "bark" ] || [ -f "bark.exe" ]; then
+            echo "✅ Binary built successfully"
+          else
+            echo "❌ Binary not found"
+            exit 1
+          fi
+

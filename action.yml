@@ -1,0 +1,54 @@
+name: '🐕 Bark! - Save yourself from production embarrassments'
+description: 'Check for BARK comments in your code before merging'
+author: 'debkanchan'
+
+branding:
+  icon: 'alert-circle'
+  color: 'orange'
+
+inputs:
+  path:
+    description: 'Path to scan for BARK comments'
+    required: false
+    default: '.'
+  format:
+    description: 'Output format (text or json)'
+    required: false
+    default: 'text'
+  fail-on-findings:
+    description: 'Fail the build if BARK comments are found'
+    required: false
+    default: 'true'
+  version:
+    description: 'Version of bark to install (latest or specific version like v1.0.0)'
+    required: false
+    default: 'latest'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Bark
+      shell: bash
+      run: |
+        echo "🐕 Installing Bark..."
+        if [ "${{ inputs.version }}" = "latest" ]; then
+          go install github.com/debkanchan/bark/cmd/bark@latest
+        else
+          go install github.com/debkanchan/bark/cmd/bark@${{ inputs.version }}
+        fi
+        echo "✅ Bark installed successfully"
+    
+    - name: Run Bark
+      shell: bash
+      run: |
+        echo "🔍 Scanning for BARK comments in ${{ inputs.path }}"
+        bark -format ${{ inputs.format }} ${{ inputs.path }}
+        exit_code=$?
+        
+        if [ "${{ inputs.fail-on-findings }}" = "false" ]; then
+          echo "ℹ️  Bark scan completed (fail-on-findings: false)"
+          exit 0
+        fi
+        
+        exit $exit_code
+

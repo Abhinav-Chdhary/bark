@@ -21,6 +21,15 @@ func NewRegistry() *Registry {
 		languages.C(),
 		languages.Cpp(),
 		languages.JSON(),
+		languages.Bash(),
+		languages.Lua(),
+		languages.HCL(),
+		languages.YAML(),
+		languages.XML(),
+		languages.TOML(),
+		languages.Rust(),
+		languages.Zig(),
+		languages.Kotlin(),
 	}
 
 	// Build extension lookup map

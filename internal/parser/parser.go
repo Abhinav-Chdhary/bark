@@ -30,9 +30,8 @@ func (p *Parser) ParseFile(filePath string) ([]results.Finding, error) {
 		return nil, fmt.Errorf("failed to read file: %w", err)
 	}
 
-	// Determine language by extension
-	ext := getFileExtension(filePath)
-	lang, found := p.registry.GetLanguageByExtension(ext)
+	// Determine language by filename (checks extension first, then patterns)
+	lang, found := p.registry.GetLanguageByFilename(filePath)
 	if !found {
 		// Not a supported language, skip silently
 		return []results.Finding{}, nil
@@ -103,17 +102,4 @@ func (p *Parser) ParseFile(filePath string) ([]results.Finding, error) {
 // GetRegistry returns the language registry
 func (p *Parser) GetRegistry() *Registry {
 	return p.registry
-}
-
-// getFileExtension extracts the file extension from a path
-func getFileExtension(path string) string {
-	for i := len(path) - 1; i >= 0; i-- {
-		if path[i] == '.' {
-			return path[i:]
-		}
-		if path[i] == '/' || path[i] == '\\' {
-			return ""
-		}
-	}
-	return ""
 }

@@ -338,7 +338,7 @@ steps:
 | Kotlin     | `.kt`, `.kts`                                |
 | C          | `.c`, `.h`                                   |
 | C++        | `.cpp`, `.cc`, `.cxx`, `.hpp`, `.hh`, `.hxx` |
-| Bash       | `.sh`, `.bash`                               |
+| Bash       | `.sh`, `.bash`, `.env`, `.env.*`             |
 | Rust       | `.rs`                                        |
 | Zig        | `.zig`                                       |
 | Lua        | `.lua`                                       |

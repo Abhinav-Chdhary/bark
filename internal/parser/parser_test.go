@@ -69,6 +69,21 @@ def hello():
     pass`,
 			expectedCount: 1,
 		},
+		{
+			name:     ".env file with BARK comment",
+			filename: ".env.local",
+			content: `# BARK: Remove test credentials
+API_KEY=test123
+DATABASE_URL=localhost`,
+			expectedCount: 1,
+		},
+		{
+			name:     ".env file without BARK",
+			filename: ".env",
+			content: `# Production environment
+API_KEY=${API_KEY}`,
+			expectedCount: 0,
+		},
 	}
 
 	for _, tt := range tests {

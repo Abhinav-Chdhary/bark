@@ -6,8 +6,9 @@ import (
 
 // Language represents a programming language with its tree-sitter parser
 type Language struct {
-	Name       string
-	Extensions []string
-	Parser     *sitter.Language
-	Query      string
+	Name             string
+	Extensions       []string
+	FilenamePatterns []string // Optional: regex patterns for matching filenames (e.g., `^\.env(\.|$)`)
+	Parser           *sitter.Language
+	Query            string
 }

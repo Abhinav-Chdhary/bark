@@ -37,7 +37,6 @@ func (s *Scanner) Scan(rootPath string) *results.ScanResult {
 
 	// Collect all files to scan
 	filesToScan := make([]string, 0)
-	supportedExtensions := s.getSupportedExtensionsMap()
 
 	err := filepath.Walk(rootPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -57,11 +56,7 @@ func (s *Scanner) Scan(rootPath string) *results.ScanResult {
 			return nil
 		}
 
-		// Check if file has supported extension
-		ext := filepath.Ext(path)
-		if _, supported := supportedExtensions[ext]; supported {
-			filesToScan = append(filesToScan, path)
-		}
+		filesToScan = append(filesToScan, path)
 
 		return nil
 	})
@@ -119,14 +114,4 @@ func (s *Scanner) worker(fileQueue <-chan string, result *results.ScanResult) {
 			result.AddFinding(finding)
 		}
 	}
-}
-
-// getSupportedExtensionsMap returns a map of supported extensions for quick lookup
-func (s *Scanner) getSupportedExtensionsMap() map[string]bool {
-	extensions := s.parser.GetRegistry().GetSupportedExtensions()
-	extMap := make(map[string]bool, len(extensions))
-	for _, ext := range extensions {
-		extMap[ext] = true
-	}
-	return extMap
 }

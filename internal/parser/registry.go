@@ -1,6 +1,9 @@
 package parser
 
 import (
+	"path/filepath"
+	"regexp"
+
 	"github.com/debkanchan/bark/internal/parser/languages"
 )
 
@@ -64,4 +67,43 @@ func (r *Registry) GetSupportedExtensions() []string {
 // GetLanguages returns all supported languages
 func (r *Registry) GetLanguages() []languages.Language {
 	return r.languages
+}
+
+// getFileExtension extracts the file extension from a path
+func getFileExtension(path string) string {
+	for i := len(path) - 1; i >= 0; i-- {
+		if path[i] == '.' {
+			return path[i:]
+		}
+		if path[i] == '/' || path[i] == '\\' {
+			return ""
+		}
+	}
+	return ""
+}
+
+// GetLanguageByFilename returns the language for a given file path
+// It first tries extension lookup (fast), then falls back to filename pattern matching
+func (r *Registry) GetLanguageByFilename(filePath string) (*languages.Language, bool) {
+	// Extract extension
+	ext := getFileExtension(filePath)
+
+	// Fast path: try extension lookup first (O(1) hashmap)
+	if lang, found := r.extensionLookup[ext]; found {
+		return lang, true
+	}
+
+	// Slow path: check filename patterns using regex (only if no extension match)
+	basename := filepath.Base(filePath)
+	for i := range r.languages {
+		for _, pattern := range r.languages[i].FilenamePatterns {
+			// Compile and match regex
+			matched, err := regexp.MatchString(pattern, basename)
+			if err == nil && matched {
+				return &r.languages[i], true
+			}
+		}
+	}
+
+	return nil, false
 }

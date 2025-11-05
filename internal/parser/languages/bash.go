@@ -7,9 +7,10 @@ import (
 
 func Bash() Language {
 	return Language{
-		Name:       "Bash",
-		Extensions: []string{".sh", ".bash"},
-		Parser:     sitter.NewLanguage(tree_sitter.Language()),
-		Query:      "((comment) @comment)",
+		Name:             "Bash",
+		Extensions:       []string{".sh", ".bash"},
+		FilenamePatterns: []string{`^\.env(\.|$)`}, // Matches .env, .env.local, .env.production, etc.
+		Parser:           sitter.NewLanguage(tree_sitter.Language()),
+		Query:            "((comment) @comment)",
 	}
 }
